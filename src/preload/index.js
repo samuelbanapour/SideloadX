@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('api', {
     getMetadata: (id) => ipcRenderer.invoke('ipa:get-metadata', id),
     getAll: () => ipcRenderer.invoke('ipa:get-all'),
     remove: (id) => ipcRenderer.invoke('ipa:remove', id),
+    togglePin: (id) => ipcRenderer.invoke('ipa:toggle-pin', id),
     pickFile: () => ipcRenderer.invoke('ipa:pick-file'),
   },
 

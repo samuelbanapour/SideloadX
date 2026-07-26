@@ -7,7 +7,8 @@ const { listDevices, getDeviceInfo, installToDevice, uninstallFromDevice, pairDe
 const { addAccount, getAllAccounts, removeAccount, getCapacity, selectBestAccount, evictApp } = require('./services/account-manager');
 const { getManifestUrl, getDownloadUrl, getItmsUrl } = require('./services/https-server');
 const { getAllSources, addSource, removeSource, fetchSourceApps } = require('./services/sources');
-const { getSetting, setSetting } = require('./services/database');
+const { getDb, getSetting, setSetting } = require('./services/database');
+const { startAutoRefresh, stopAutoRefresh, refreshNow, getStatus } = require('./services/auto-refresh');
 
 function setupIpcHandlers() {
   // IPA operations
@@ -190,6 +191,22 @@ function setupIpcHandlers() {
   ipcMain.handle('settings:set', async (event, key, value) => {
     return setSetting(key, value);
   });
+
+  // Pin toggle
+  ipcMain.handle('ipa:toggle-pin', async (event, id) => {
+    const db = getDb();
+    const app = db.prepare('SELECT pinned FROM apps WHERE id = ?').get([id]);
+    if (!app) return { error: 'App not found' };
+    const newPinned = app.pinned ? 0 : 1;
+    db.prepare("UPDATE apps SET pinned = ?, updated_at = datetime('now') WHERE id = ?").run([newPinned, id]);
+    return { success: true, pinned: !!newPinned };
+  });
+
+  // Auto-refresh
+  ipcMain.handle('refresh:start', () => { startAutoRefresh(BrowserWindow.getFocusedWindow()); return { success: true }; });
+  ipcMain.handle('refresh:stop', () => { stopAutoRefresh(); return { success: true }; });
+  ipcMain.handle('refresh:get-status', () => getStatus());
+  ipcMain.handle('refresh:refresh-now', async () => { await refreshNow(BrowserWindow.getFocusedWindow()); return { success: true }; });
 }
 
 module.exports = { setupIpcHandlers };

@@ -108,9 +108,13 @@ export default function LibraryPage({ showToast }) {
 
   async function handlePin(app) {
     if (!window.api) return;
-    // Toggle pin via IPC
-    await window.api.ipa.remove(app.id); // placeholder
-    loadApps();
+    const result = await window.api.ipa.togglePin(app.id);
+    if (result?.error) {
+      showToast(result.error, 'error');
+    } else {
+      showToast(result.pinned ? 'App pinned' : 'App unpinned', 'success');
+      loadApps();
+    }
   }
 
   return (

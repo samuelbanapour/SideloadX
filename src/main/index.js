@@ -3,6 +3,7 @@ const path = require('path');
 const { setupIpcHandlers } = require('./ipc-handlers');
 const { createTray } = require('./tray');
 const { initDatabase } = require('./services/database');
+const { startAutoRefresh, stopAutoRefresh } = require('./services/auto-refresh');
 
 let mainWindow = null;
 let tray = null;
@@ -62,6 +63,9 @@ app.whenReady().then(async () => {
   // Create window
   createWindow();
 
+  // Start auto-refresh service
+  startAutoRefresh(mainWindow);
+
   // Create system tray
   tray = createTray(mainWindow);
 
@@ -93,6 +97,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
+  stopAutoRefresh();
   app.isQuitting = true;
 });
 
