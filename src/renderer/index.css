@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface-950 text-white font-sans antialiased;
+    overflow: hidden;
+  }
+
+  * {
+    @apply border-surface-700;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200
+           flex items-center gap-2 cursor-pointer select-none;
+  }
+
+  .btn:active {
+    @apply scale-[0.97];
+  }
+
+  .btn-primary {
+    @apply btn bg-accent hover:bg-accent-light text-white shadow-lg shadow-accent/20;
+  }
+
+  .btn-secondary {
+    @apply btn bg-surface-700 hover:bg-surface-600 text-white;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger/20 hover:bg-danger/30 text-danger border border-danger/30;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent hover:bg-surface-800 text-surface-300 hover:text-white;
+  }
+
+  .card {
+    @apply bg-surface-900/50 border border-surface-700/50 rounded-xl p-4
+           hover:border-surface-600/50 transition-all duration-200;
+  }
+
+  .badge {
+    @apply px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply badge bg-success/20 text-success;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning/20 text-warning;
+  }
+
+  .badge-danger {
+    @apply badge bg-danger/20 text-danger;
+  }
+
+  .badge-info {
+    @apply badge bg-accent/20 text-accent;
+  }
+
+  .input {
+    @apply w-full bg-surface-800 border border-surface-600 rounded-lg px-3 py-2
+           text-white placeholder-surface-400 text-sm
+           focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50
+           transition-all duration-200;
+  }
+
+  .dropzone {
+    @apply border-2 border-dashed border-surface-600 rounded-2xl p-8
+           flex flex-col items-center justify-center gap-4
+           hover:border-accent/50 hover:bg-accent/5
+           transition-all duration-300 cursor-pointer;
+  }
+
+  .dropzone-active {
+    @apply border-accent bg-accent/10 scale-[1.02];
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm
+           text-surface-400 hover:text-white hover:bg-surface-800/50
+           transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .sidebar-item-active {
+    @apply sidebar-item text-white bg-surface-800;
+  }
+
+  .progress-ring {
+    @apply relative inline-flex items-center justify-center;
+  }
+
+  .app-card {
+    @apply card flex flex-col items-center gap-3 p-5 cursor-pointer
+           hover:shadow-lg hover:shadow-accent/5;
+  }
+
+  .app-card:hover {
+    @apply -translate-y-0.5;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: rgba(0, 122, 255, 0.3); }
+  50% { border-color: rgba(0, 122, 255, 0.6); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-pulse-border {
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+/* Title bar drag area */
+.titlebar-drag {
+  app-region: drag;
+}
+
+.titlebar-no-drag {
+  app-region: no-drag;
+}

@@ -1,0 +1,54 @@
+{
+  "name": "sideloadx",
+  "version": "1.0.0",
+  "description": "All-in-One iOS App Sideloading Tool - Like AltStore, Sideloadly & SideStore combined",
+  "main": "src/main/index.js",
+  "author": "SideloadX",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --config vite.config.js & sleep 2 && electron .",
+    "dev:web": "vite --config vite.config.js",
+    "build:web": "vite build --config vite.config.js"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "sql.js": "^1.10.0",
+    "clsx": "^2.1.0",
+    "framer-motion": "^10.18.0",
+    "lucide-react": "^0.303.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-forge": "^1.3.1",
+    "plist": "^3.1.0",
+    "selfsigned": "^2.4.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "electron": "^28.1.0",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.0",
+    "vite": "^5.0.10"
+  },
+  "build": {
+    "appId": "com.sideloadx.app",
+    "productName": "SideloadX",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "files": [
+      "src/main/**/*",
+      "src/preload/**/*",
+      "dist/**/*"
+    ],
+    "directories": {
+      "output": "release"
+    }
+  }
+}
